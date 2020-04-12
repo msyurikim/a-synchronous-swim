@@ -17,7 +17,7 @@
     $.ajax({
       type: 'POST',
       data: formData,
-      url: 'FILL_ME_IN',
+      url: 'http://127.0.0.1:3000/post',
       cache: false,
       contentType: false,
       processData: false,
@@ -27,6 +27,40 @@
       }
     });
   };
+
+  function getRandomDirection() {
+    $.ajax({
+      type: 'GET',
+      url: 'http://127.0.0.1:3000/random',
+      success: function(data) {
+        console.log('success AJAX request');
+        SwimTeam.move(data);
+      },
+      error: function(data) {
+        console.error('There was an error making the AJAX request');
+      }
+    });
+  }
+
+  //setInterval(getRandomDirection, 1000);
+
+  // function getBackgroundImage() {
+  //   $.ajax({
+  //     type: 'GET',
+  //     url: 'http://127.0.0.1:3000/background',
+  //     success: function(data) {
+
+  //       $('.background')
+  //       console.log('success AJAX request');
+  //     },
+  //     error: function(data) {
+  //       console.error('There was an error making the AJAX request');
+  //     }
+  //   });
+  // }
+
+  // getBackgroundImage();
+
 
   $('form').on('submit', function(e) {
     e.preventDefault();

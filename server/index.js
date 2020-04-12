@@ -3,6 +3,8 @@
 
 const keypressHandler = require('./js/keypressHandler');
 keypressHandler.initialize(message => console.log(`Message received: ${message}`));
+// keypressHandler.initialize(message => httpHandler.initialize(key.name));
+// httpHandler.initialize(key.name);
 
 const httpHandler = require('./js/httpHandler');
 

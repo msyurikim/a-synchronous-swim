@@ -11,9 +11,10 @@ h3 {
   height: 202px;
   width: 622px;
 }
-.background {
-  background-image: url(http://127.0.0.1:3000/background.jpg);
-}
+/* .background {
+  background-image: url(http://127.0.0.1:3000/background);
+  /* background-image: url(http://127.0.0.1:3000/spec/img/background.jpg); */
+/* } */
 .team {
   position: absolute;
   top: 100px;

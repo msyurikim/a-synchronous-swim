@@ -1,5 +1,7 @@
 const _ = require('underscore');
 const keypress = require('keypress');
+const messageQueue = require('./messageQueue');
+const httpHandler = require('./httpHandler.js');
 
 ///////////////////////////////////////////////////////////////////////////////
 // Utility Function ///////////////////////////////////////////////////////////
@@ -30,6 +32,11 @@ module.exports.initialize = (callback) => {
 
   // setup an event handler on standard input
   process.stdin.on('keypress', (chunk, key) => {
+
+    // messageQueue.enqueue(key.name);
+    // httpHandler.initialize();
+    //resets message queue in httpHandler.js
+
     // ctrl+c should quit the program
     if (key && key.ctrl && key.name === 'c') {
       process.exit();
@@ -38,25 +45,29 @@ module.exports.initialize = (callback) => {
     // check to see if the keypress itself is a valid message
     if (isValidMessage(key.name)) {
       callback(key.name);
-      return; // don't do any more processing on this key
+      //return; // don't do any more processing on this key
     }
-    
+
     // otherwise build up a message from individual characters
     if (key && (key.name === 'return' || key.name === 'enter')) {
       // on enter, process the message
       logKeypress('\n');
+
       if (message.length > 0) {
         callback(message);
         message = ''; // clear the buffer where we are collecting keystrokes
       }
     } else {
       // collect the individual characters/keystrokes
-      message += (mappedChars[key.name] || key.name);
-      logKeypress(key.name);
+      message += (mappedChars[key.name] || key.name + ' ');
+      console.log(key.name);
+      httpHandler.initialize(key.name);
     }
 
   });
 };
+
+
 
 ///////////////////////////////////////////////////////////////////////////////
 // Configuration -- do not modify /////////////////////////////////////////////
