@@ -45,14 +45,17 @@ module.exports.router = (req, res, next = ()=>{}) => {
       }
       res.end();
       next();
-    } else if (req.url === '/background') { // <----- Get background image
+    } else if (req.url === '/background.jpg') { // <----- Get background image
       fs.readFile( module.exports.backgroundImageFile, (err, data) => {
         if (err) {
           res.writeHead(404, headers);
         } else {
-          res.writeHead(200, headers);
+          res.writeHead(200, {
+            'Content-Type': 'image/jpeg',
+            'Content-Length': fileData.length
+          });
           //when you readFile, data is in binary, still works without binary???
-          res.write(data);
+          res.write(data, 'binary');
         }
         res.end();
         next();
@@ -63,7 +66,7 @@ module.exports.router = (req, res, next = ()=>{}) => {
       next();
     }
   } else if (req.method === 'POST') {
-    if (req.url === '/post') {
+    if (req.url === '/background') {
       // req.on('data', (data) => {
       //   module.exports.backgroundImageFile = data;
       // });
@@ -78,7 +81,7 @@ module.exports.router = (req, res, next = ()=>{}) => {
       req.on('end', () => {
         var file = multipart.getFile(fileData);
         fs.write(module.exports.backgroundImageFile, file.data, (err) => {
-          res.writeHead(err ? 404 : 200, headers);
+          res.writeHead(err ? 400 : 201, headers);
           res.end();
           next()
         });
